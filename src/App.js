@@ -15,12 +15,42 @@ import Deficord from './abis/Deficord.json'
 import config from './config.json';
 
 // Socket
-const socket = io('ws://localhost:3030');
+// const socket = io('ws://localhost:3030');
 
 function App() {
 
+  const [provider, setProvider] = useState(null)
+  const [account, setAccount] = useState(null)
+
+  const [deficord, setDeficord] = useState(null)
+  const [channels, setChannels] = useState([])
+
+  const [currentChannel, setCurrentChannel] = useState(null)
+
   const loadBlockchainData = async () => {
-    console.log('loading...')
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    setProvider(provider)
+
+    const network = await provider.getNetwork()
+    const deficord = new ethers.Contract(config[network.chainId].Deficord.address, Deficord, provider )
+    setDeficord(deficord)
+
+    const totalChannels = await deficord.totalChannels()
+    const channels = []
+    
+    for (var i = 1; i <= totalChannels; i++) {
+    const channel = await deficord.getChannel(i)
+    channels.push(channel)
+ } 
+
+    setChannels(channels)
+    
+
+    window.ethereum.on('accountsChanged', async () => {
+      window.location.reload()
+    
+    })
+   
   }
 
   useEffect(() => {
@@ -29,9 +59,21 @@ function App() {
 
   return (
     <div>
-      <Navigation />
+      <Navigation account={account} setAccount={setAccount}/>
 
+      
       <main>
+
+      <Servers />
+      <Channels
+        provider={provider}
+        account={account}
+        deficord={deficord}
+        channels={channels}
+        currentChannel={currentChannel}
+        setCurrentChannel={setCurrentChannel}
+      />
+      <Messages />
 
       </main>
     </div>
