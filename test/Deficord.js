@@ -26,7 +26,7 @@ describe("Deficord", function () {
     // 1 Wei has 18 zeros
 
     // Create a channel
-    const transaction = await deficord.connect(deployer).createChannel("general", tokens(1))
+    const transaction = await deficord.connect(deployer).createChannel("General", tokens(1))
     await transaction.wait()
   }) 
 
@@ -60,7 +60,7 @@ describe("Deficord", function () {
     it('Returns channel attributes', async () => {
       const channel = await deficord.getChannel(1)
       expect(channel.id).to.be.equal(1)
-      expect(channel.name).to.be.equal("general")
+      expect(channel.name).to.be.equal("General")
       expect(channel.cost).to.be.equal(tokens(1))
     })
   }) 
