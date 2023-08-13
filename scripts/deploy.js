@@ -17,7 +17,7 @@ async function main() {
   console.log(`Deployed Deficord Contract at: ${deficord.address}\n`)
 
   // Create 3 channels
-  const CHANNEL_NAMES = ["general", "intro", "jobs"]
+  const CHANNEL_NAMES = ["general", "tokens", "nfts"]
   const COSTS = [tokens(1), tokens(0), tokens(0.25)]
 
   for (var i = 0; i < 3; i++){
