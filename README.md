@@ -1,4 +1,4 @@
-# Deficord
+# Deficord Pro
 
 ## Technology Stack & Tools
 
